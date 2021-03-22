@@ -135,14 +135,13 @@ public class FileAccessor {
      *             .getRevista(i).getArticle(j).getAutor()<>nil</br>
      *
      */
-    public ArrayList<Revista> readArticlesFile(String filename)
-            throws IOException {
+    public ArrayList<Revista> readArticlesFile(String filename) throws IOException {
         int idArticle, idRevista, idAutor;
+        Autor autor = null;
         String titol;
-        Date data_creacio;
+        Date data_creacio = null;
         boolean publicable;
         DateFormat dateformat = new SimpleDateFormat("YYYY-MM-DD");
-
         BufferedReader br = new BufferedReader(new FileReader(filename));
         String linea = "";
         while ((linea = br.readLine()) != null) {
@@ -153,14 +152,26 @@ public class FileAccessor {
             titol = str.nextToken();
             try {
                 data_creacio = dateformat.parse(str.nextToken());
-                publicable = Boolean.parseBoolean(str.nextToken());
-
+                // TODO
+                // Cal afegir un objecte Magazine a la llista
             } catch (ParseException e) {
                 System.err.println(" errada format data al fitxer");
                 e.printStackTrace();
             }
+            publicable = Boolean.parseBoolean(str.nextToken());
+            for (Autor autor1: llistaAutors){
+                if (autor1.getId_autor() == idAutor){
+                    autor = autor1;
+                }
+            }
 
+            for(Revista revista1 : llistaRevistes){
+                if (revista1.getId_revista() == idRevista){
+                    revista1.addArticle(new Article(idArticle,titol, (java.sql.Date) data_creacio,publicable,autor));
+                }
+            }
         }
+        br.close();
 
         // TODO afegir la resta d'atributs necessaris
 
