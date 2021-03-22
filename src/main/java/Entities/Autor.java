@@ -1,11 +1,27 @@
 package Entities;
 
 import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+
+@Entity
+@Table( name = "autors" )
 public class Autor implements Serializable {
-    int id_autor;
-    String nom,  nacionalitat,any_naixement;
-    boolean actiu;
+    @Id
+    @Column(name = "id_autor")
+    private  int id_autor;
+    @Column(name = "nom")
+    private  String nom;
+    @Column(name = "nacionalitat")
+    private  String nacionalitat;
+    @Column(name = "any_naixement")
+    private  String any_naixement;
+    @Column(name = "actiu")
+    private  boolean actiu;
+
 
     public Autor( int id_autor,  String nom, String nacionalitat , String any_naixement,
                   boolean actiu) {
